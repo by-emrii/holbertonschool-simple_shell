@@ -1,6 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * main - entry point
+ * Write a program that prints "$ ",
+ * wait for the user to enter a command, prints it on the next line.
+ * @ac: argument count
+ * @av: double ptr argument vector
+ * Return: return (0) on success
+ */
+
+
 int main(int ac, char **av)
 {
 	char *prompt = "$ ";
