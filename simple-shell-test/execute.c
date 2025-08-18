@@ -10,13 +10,21 @@ int execute(char *line)
 {
 	pid_t child_pid;
 	int status;
-	char *argv[2]; /* only cmds, no args */
+	char *argv[100]; /* only cmds, no args */
+	int i = 0;
+	char *token;
 
 	if (line[strlen(line) - 1] == '\n')
 		line[strlen(line) - 1] = '\0';
 
-	argv[0] = line;
-	argv[1] = NULL;
+	/* Split strings */
+	token = strtok(line, " \t"); /* spaces and tabs are delimiters */
+	while (token != NULL)
+	{
+		argv[i++] = token;
+		token = strtok(NULL, " \t");
+	}
+	argv[i] = NULL; /* execve expects a NULL terminated arr */
 
 	child_pid = fork();
 	if (child_pid == -1)
