@@ -12,5 +12,6 @@
 extern char **environ;
 
 /* prototypes */
+int execute(char *line);
 
 #endif

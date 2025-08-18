@@ -26,7 +26,7 @@ int main(void)
 			printf("\n"); /* so prompt looks neat */
 			exit(0);
 		}
-		printf("You typed: %s", line);
+		execute(line);
 	}
 	free(line);
 	return (0);
