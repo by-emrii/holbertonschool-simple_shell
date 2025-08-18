@@ -12,7 +12,7 @@ int execute(char *line)
 	int status;
 	char *argv[100]; /* only cmds, no args */
 	int i = 0;
-	char *token;
+	char *token, *path = NULL;
 
 	if (line[strlen(line) - 1] == '\n')
 		line[strlen(line) - 1] = '\0';
@@ -26,6 +26,24 @@ int execute(char *line)
 	}
 	argv[i] = NULL; /* execve expects a NULL terminated arr */
 
+	if (argv[0] == NULL)
+		return (0);
+
+	/* check if command has '/' */
+	if (strchr(argv[0], '/'))
+	{
+		if (access(argv[0], X_OK) == 0)
+			path = strdup(argv[0]);
+	}
+	else
+		path = get_full_path(argv[0]);
+
+	if (!path)
+	{
+		fprintf(stderr, "%s: command not found\n", argv[0]);
+		return (1);
+	}
+	
 	child_pid = fork();
 	if (child_pid == -1)
 	{
@@ -36,9 +54,9 @@ int execute(char *line)
 	/* child process */
 	if (child_pid == 0)
 	{
-		if (execve(argv[0], argv, environ) == -1)
+		if (execve(path, argv, environ) == -1)
 		{
-			fprintf(stderr, "%s: 1: %s: not found\n", argv[0], argv[0]);
+			free(path);
 			exit(127); /* cmd not found */
 		}
 	}
@@ -46,5 +64,6 @@ int execute(char *line)
 	{
 		 wait(&status);
 	}
+	free(path);
 	return (0);
 }

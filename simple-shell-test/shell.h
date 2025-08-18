@@ -13,5 +13,5 @@ extern char **environ;
 
 /* prototypes */
 int execute(char *line);
-
+char *get_full_path(char *command);
 #endif
