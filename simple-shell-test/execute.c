@@ -29,6 +29,12 @@ int execute(char *line)
 	if (argv[0] == NULL)
 		return (0);
 
+	if (strcmp(argv[0], "exit") == 0)
+	{
+		/* no fork, just exit */
+		exit(0);
+	}
+
 	/* check if command has '/' */
 	if (strchr(argv[0], '/'))
 	{
