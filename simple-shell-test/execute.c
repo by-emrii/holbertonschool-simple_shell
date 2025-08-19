@@ -10,7 +10,7 @@ int execute(char *line)
 {
 	pid_t child_pid;
 	int status;
-	char *argv[100]; /* only cmds, no args */
+	char *argv[1024]; /* only cmds, no args */
 	int i = 0;
 	char *token, *path = NULL;
 
