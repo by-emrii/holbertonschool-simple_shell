@@ -15,4 +15,5 @@ extern char **environ;
 int execute(char *line);
 char **parse_line (char *line);
 char *get_full_path(char *command);
+int printenv(void);
 #endif

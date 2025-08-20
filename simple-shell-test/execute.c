@@ -26,6 +26,12 @@ int execute(char *line)
 		exit(0);
 	}
 
+	/* env in built cmd */
+	if (strcmp(argv[0], "env") == 0)
+	{
+		return (printenv());
+	}
+
 	/* check if command has '/' */
 	if (strchr(argv[0], '/'))
 	{
