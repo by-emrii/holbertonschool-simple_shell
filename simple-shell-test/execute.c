@@ -10,25 +10,16 @@ int execute(char *line)
 {
 	pid_t child_pid;
 	int status;
-	char *argv[1024]; /* only cmds, no args */
-	int i = 0;
-	char *token, *path = NULL;
+	char **argv, *path = NULL;
 
-	if (line[strlen(line) - 1] == '\n')
-		line[strlen(line) - 1] = '\0';
-
-	/* Split strings */
-	token = strtok(line, " \t"); /* spaces and tabs are delimiters */
-	while (token != NULL)
+	argv = parse_line(line);
+	if (!argv || argv[0] == NULL)
 	{
-		argv[i++] = token;
-		token = strtok(NULL, " \t");
-	}
-	argv[i] = NULL; /* execve expects a NULL terminated arr */
-
-	if (argv[0] == NULL)
+		free(argv);
 		return (0);
+	}
 
+	/* exit in built cmd */
 	if (strcmp(argv[0], "exit") == 0)
 	{
 		/* no fork, just exit */
@@ -47,6 +38,7 @@ int execute(char *line)
 	if (!path)
 	{
 		fprintf(stderr, "%s: command not found\n", argv[0]);
+		free(argv);
 		return (1);
 	}
 	
@@ -54,6 +46,8 @@ int execute(char *line)
 	if (child_pid == -1)
 	{
 		perror("Error with fork");
+		free(argv);
+		free(path);
 		return (1);
 	}
 
@@ -63,6 +57,7 @@ int execute(char *line)
 		if (execve(path, argv, environ) == -1)
 		{
 			free(path);
+			perror("Error with execution");
 			exit(127); /* cmd not found */
 		}
 	}
@@ -70,6 +65,7 @@ int execute(char *line)
 	{
 		 wait(&status);
 	}
+	free(argv);
 	free(path);
 	return (0);
 }

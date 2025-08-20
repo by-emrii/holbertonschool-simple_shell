@@ -13,5 +13,6 @@ extern char **environ;
 
 /* prototypes */
 int execute(char *line);
+char **parse_line (char *line);
 char *get_full_path(char *command);
 #endif
