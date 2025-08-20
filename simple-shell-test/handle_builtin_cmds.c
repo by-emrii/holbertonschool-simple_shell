@@ -5,22 +5,22 @@
  * @argv: argument array
  * Return: 1 if handled, 0 otherwise
  */
-int handle_builtin_cmds(char **argv)
+int handle_builtin_cmds(char **args)
 {
 	int j;
 
-	if (!argv || !argv[0])
+	if (!args || !args[0])
 		return (0);
 
 	/* exit in built cmd */
-	if (strcmp(argv[0], "exit") == 0)
+	if (strcmp(args[0], "exit") == 0)
 	{
 		/* no fork, just exit */
 		exit(0);
 	}
 
 	/* env in built cmd */
-	if (strcmp(argv[0], "env") == 0)
+	if (strcmp(args[0], "env") == 0)
 	{
 		for (j = 0; environ[j]; j++)
 			printf("%s\n", environ[j]);

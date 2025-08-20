@@ -2,34 +2,36 @@
 
 /**
  * execute - fork and executes command
- * @argv: argument array
+ * @args: parsed argument array
+ * @progname: program name for error messages, argv[0]
+ * @line_count: current line for error msges
  * Return: 0 (success), 1 - failure
  */
 
-int execute(char **argv)
+int execute(char **args, char *progname, int line_count)
 {
 	pid_t child_pid;
 	int status;
 	char *path = NULL;
 
-	if (!argv || !argv[0])
+	if (!args || !args[0])
 		return (0);
 
-	if (handle_builtin_cmds(argv))
+	if (handle_builtin_cmds(args))
 		return (0);
 
 	/* check if command has '/' */
-	if (strchr(argv[0], '/'))
+	if (strchr(args[0], '/'))
 	{
-		if (access(argv[0], X_OK) == 0)
-			path = strdup(argv[0]);
+		if (access(args[0], X_OK) == 0)
+			path = strdup(args[0]);
 	}
 	else
-		path = get_full_path(argv[0]);
+		path = get_full_path(args[0]);
 
 	if (!path)
 	{
-		fprintf(stderr, "%s: command not found\n", argv[0]);
+		fprintf(stderr, "%s: %d: %s: not found\n", progname, line_count, args[0]);
 		return (1);
 	}
 	
@@ -44,7 +46,7 @@ int execute(char **argv)
 	/* child process */
 	if (child_pid == 0)
 	{
-		if (execve(path, argv, environ) == -1)
+		if (execve(path, args, environ) == -1)
 		{
 			free(path);
 			perror("Error with execution");

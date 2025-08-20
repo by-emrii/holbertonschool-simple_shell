@@ -5,12 +5,16 @@
  * Return: 0 (success)
  */
 
-int main(void)
+int main(int argc, char **argv)
 {
 	char *line = NULL;
-	char **argv;
+	char **args;
 	size_t len = 0;
 	ssize_t read;
+	char *progname = argv[0];
+	int line_count = 1;
+
+	(void)argc;
 
 	while (1)
 	{
@@ -28,8 +32,10 @@ int main(void)
 			exit(0);
 		}
 
-		argv = parse_line(line);
-		execute(argv);
+		args = parse_line(line);
+		execute(args, progname, line_count);
+		free(args);
+		line_count++;
 	}
 	free(line);
 	return (0);

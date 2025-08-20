@@ -2,12 +2,12 @@
 
 char **parse_line(char *line)
 {
-	char **argv;
+	char **args;
 	char *token;
 	int i = 0;
 
-	argv = malloc(sizeof(char *) * 1024);
-	if (!argv)
+	args = malloc(sizeof(char *) * 1024);
+	if (!args)
 		return (NULL);
 
 	/* remove trailing newline */
@@ -18,9 +18,9 @@ char **parse_line(char *line)
 	token = strtok(line, " \t"); /* spaces and tabs are delimiters */
 	while (token != NULL)
 	{
-		argv[i++] = token;
+		args[i++] = token;
 		token = strtok(NULL, " \t");
 	}
-	argv[i] = NULL; /* execve expects a NULL terminated arr */
-	return (argv);
+	args[i] = NULL; /* execve expects a NULL terminated arr */
+	return (args);
 }
