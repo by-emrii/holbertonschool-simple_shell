@@ -8,6 +8,7 @@
 int main(void)
 {
 	char *line = NULL;
+	char **argv;
 	size_t len = 0;
 	ssize_t read;
 
@@ -26,7 +27,9 @@ int main(void)
 			printf("\n"); /* so prompt looks neat */
 			exit(0);
 		}
-		execute(line);
+
+		argv = parse_line(line);
+		execute(argv);
 	}
 	free(line);
 	return (0);

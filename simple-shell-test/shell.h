@@ -12,8 +12,8 @@
 extern char **environ;
 
 /* prototypes */
-int execute(char *line);
+int execute(char **argv);
 char **parse_line (char *line);
 char *get_full_path(char *command);
-int printenv(void);
+int handle_builtin_cmds(char **argv);
 #endif

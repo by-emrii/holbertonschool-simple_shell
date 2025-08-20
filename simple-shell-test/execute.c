@@ -1,36 +1,22 @@
 #include "shell.h"
 
 /**
- * execute - executes single command
- * @line: command from user
+ * execute - fork and executes command
+ * @argv: argument array
  * Return: 0 (success), 1 - failure
  */
 
-int execute(char *line)
+int execute(char **argv)
 {
 	pid_t child_pid;
 	int status;
-	char **argv, *path = NULL;
+	char *path = NULL;
 
-	argv = parse_line(line);
-	if (!argv || argv[0] == NULL)
-	{
-		free(argv);
+	if (!argv || !argv[0])
 		return (0);
-	}
 
-	/* exit in built cmd */
-	if (strcmp(argv[0], "exit") == 0)
-	{
-		/* no fork, just exit */
-		exit(0);
-	}
-
-	/* env in built cmd */
-	if (strcmp(argv[0], "env") == 0)
-	{
-		return (printenv());
-	}
+	if (handle_builtin_cmds(argv))
+		return (0);
 
 	/* check if command has '/' */
 	if (strchr(argv[0], '/'))
@@ -44,7 +30,6 @@ int execute(char *line)
 	if (!path)
 	{
 		fprintf(stderr, "%s: command not found\n", argv[0]);
-		free(argv);
 		return (1);
 	}
 	
@@ -52,7 +37,6 @@ int execute(char *line)
 	if (child_pid == -1)
 	{
 		perror("Error with fork");
-		free(argv);
 		free(path);
 		return (1);
 	}
@@ -68,10 +52,8 @@ int execute(char *line)
 		}
 	}
 	else
-	{
-		 wait(&status);
-	}
-	free(argv);
+		wait(&status);
+
 	free(path);
 	return (0);
 }
