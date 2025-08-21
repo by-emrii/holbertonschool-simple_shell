@@ -16,7 +16,6 @@ char *get_full_path(char *command)
 
 	if (!path_env || !command)
 		return (NULL);
-
 	copy = strdup(path_env);
 	if (!copy)
 		return (NULL);
@@ -27,7 +26,7 @@ char *get_full_path(char *command)
 		/* allocate mem for - dir + "/" + cmd + '\0' */
 		len = strlen(dir_token) + strlen(command) + 2;
 		full_path = malloc(len);
-		
+
 		if (!full_path)
 		{
 			free(copy);

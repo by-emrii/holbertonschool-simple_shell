@@ -16,4 +16,5 @@ int execute(char **args, char *progname, int line_count);
 char **parse_line (char *line);
 char *get_full_path(char *command);
 int handle_builtin_cmds(char **args);
+char *resolve_path(char *args);
 #endif
