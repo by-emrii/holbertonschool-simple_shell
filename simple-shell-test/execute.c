@@ -18,7 +18,7 @@ int execute(char **args, char *progname, int line_count)
 		return (0);
 	if (handle_builtin_cmds(args))
 		return (0);
-	
+
 	path = resolve_path(args[0]);
 	if (!path)
 	{
@@ -32,7 +32,7 @@ int execute(char **args, char *progname, int line_count)
 		free(path);
 		return (1);
 	}
-	/* child process */	
+	/* child process */
 	if (child_pid == 0)
 	{
 		if (execve(path, args, environ) == -1)
