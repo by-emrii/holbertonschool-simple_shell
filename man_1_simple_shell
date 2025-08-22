@@ -1,0 +1,95 @@
+.\"Modified from man(1) of FreeBSD, the NetBSD mdoc.template, and mdoc.samples.
+.\"See Also:
+.\"man mdoc.samples for a complete listing of options
+.\"man mdoc for the short list of editing options
+.\"/usr/share/misc/mdoc.template
+.Dd 22/08/2025               \" DATE
+.Dt simple_shell 1      \" Program name and manual section number
+.Os Linux
+.Sh Simple Shell Manual                 \" Section Header - required - don't modify
+.\" Use .Nm macro to designate other names for the documented program.
+.Sh Name
+Simple Shell
+.Sh SYNOPSIS             \" Section Header - required - don't modify
+hsh [command] [options ...]
+.Sh DESCRIPTION          \" Section Header - required - don't modify
+A simplified UNIX command-line interpreter written in C.
+It provides basic functionality to parse and execute commands, similar to
+a standard shell environment.
+.sp 1
+.B The simple shell
+reads input from standard input, parses it into tokens (arguments), and
+executes commands either from absolute/relative paths or by searching the
+directories listed in the
+.B PATH
+environment variable.
+.sp 1
+The following features are supported:
+
+.Sy Command execution in PATH
+
+Commands located in the system PATH (e.g. \fBls\fR, \fBpwd\fR, \fBecho\fR)\fR can be executed.
+
+.Sy Absolute or relative paths
+.Pp
+Commands can be run directly by path (e.g. \fB/bin/ls\fR, \fB./hsh\fR).
+.sp 1
+.Sy Built-in commands
+.Pp
+The following built-ins are supported:
+
+.Sy exit - 
+Exits the shell with the status of the last executed command.
+
+.Sy env -
+Prints the current environment variables.
+.sp 1
+.Sy Interactive mode -
+When run from a terminal, the shell displays a prompt (\fB$\fR).
+
+.Sy Non-interactive mode -
+Commands can be piped or redirected into the shell.
+
+.sp 1
+.Sy EXIT STATUS
+
+The shell exits with the status code of the last executed command.
+If a command is not found, the shell prints an error message of the form:
+
+.Pp
+.Sy Ar <progname>: <line_number>: <command>: not found
+
+.sp 1
+.Sy ENVIRONMENT
+
+.Sy PATH -
+A colon separated list of directories in which to search for commands.
+
+.Sy environ -
+The environment is passed to child processes via \fBexecve\fR.
+
+
+.Sh EXAMPLES
+The following are examples of how to use the simple shell
+.Pp
+To run the "ls" command.
+.Pp
+Where "($)" is the prompt.
+.sp 1
+.Pp
+.Sy In interactive mode:
+.Pp
+$ ./hsh // To run the simple shell.
+.Pp
+($) ls -l
+.Pp
+($) exit
+
+.sp 1
+.Pp
+.Sy In non-interactive mode:
+.Pp
+$ echo "ls /var" | ./hsh 
+
+.Sh AUTHORS
+Written by Emily Chew and Mel Harkin for the Holberton School simple shell project.
