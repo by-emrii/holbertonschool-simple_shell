@@ -51,7 +51,7 @@ When run from a terminal, the shell displays a prompt (\fB$\fR).
 Commands can be piped or redirected into the shell.
 
 .sp 1
-.Sy EXIT STATUS
+.Sh EXIT STATUS
 
 The shell exits with the status code of the last executed command.
 If a command is not found, the shell prints an error message of the form:
@@ -60,7 +60,7 @@ If a command is not found, the shell prints an error message of the form:
 .Sy Ar <progname>: <line_number>: <command>: not found
 
 .sp 1
-.Sy ENVIRONMENT
+.Sh ENVIRONMENT
 
 .Sy PATH -
 A colon separated list of directories in which to search for commands.
